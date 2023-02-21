@@ -1,5 +1,4 @@
-package com.example.carpark.entities;
-
+package com.example.carpark.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -10,64 +9,30 @@ import jakarta.validation.constraints.Size;
 
 import java.sql.Date;
 
-@Entity
-public class Employee {
+public class EmployeeDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE )
-    @Column(length = 20)
-    private int employeeID;
 
-    @Column(length = 50)
-    @NotBlank(message = "Employee Account should not be blank")
-    @Size(max = 50, message = "Employee Account should be within 50 characters")
     private String account;
 
-    @Column(length = 10)
-    @NotBlank(message = "Department should not be blank")
-    @Size(max = 10, message = "Department should be within 10 characters")
     private String department;
 
-    @Column(length = 50)
-    @Size(max = 50, message = "Employee Address should be within 50 characters")
     private String employeeAddress;
 
-    @Column
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date employeeBirthdate;
 
-    @Column(length = 50)
-    @Size(max = 50, message = "Employee Email should be within 50 characters")
     private String employeeEmail;
 
-    @Column(length = 50)
-    @Size(max = 50, message = "Employee Name should be within 50 characters")
-    @NotBlank(message = "Employee Name should not be blank")
     private String employeeName;
 
-    @Column(length = 50)
-    @Size(max = 50, message = "Employee Phone should be within 50 characters")
-    @NotBlank(message = "Employee Phone should not be blank")
     private String employeePhone;
 
-    @Column(length = 20)
-    @Size(max = 20, message = "Password should be within 20 characters")
-    @NotBlank(message = "Password should not be blank")
     private String password;
 
-    @Column(length = 1)
-    @Size(max = 1, message = "Sex should only contain one character")
-    @NotBlank(message = "Sex should not be empty")
     private String sex;
 
+    String msg;
 
-    public int getEmployeeID() {
-        return employeeID;
-    }
-
-    public void setEmployeeID(int employeeID) {
-        this.employeeID = employeeID;
-    }
 
     public String getAccount() {
         return account;
@@ -123,6 +88,14 @@ public class Employee {
 
     public void setEmployeePhone(String employeePhone) {
         this.employeePhone = employeePhone;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public String getPassword() {

@@ -1,4 +1,4 @@
-package com.example.carpark.servicesInterface;
+package com.example.carpark.services;
 
 
 import com.example.carpark.entities.ParkingLot;
@@ -8,6 +8,9 @@ import java.util.List;
 public interface ParkingLotService {
 
     public void add(ParkingLot lot);
+
+    public boolean idExist(int id);
+
 
     public void deleteById(int id);
 

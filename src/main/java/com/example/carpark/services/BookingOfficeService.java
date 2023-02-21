@@ -1,4 +1,4 @@
-package com.example.carpark.servicesInterface;
+package com.example.carpark.services;
 
 
 import com.example.carpark.entities.BookingOffice;
@@ -6,6 +6,8 @@ import com.example.carpark.entities.BookingOffice;
 import java.util.List;
 
 public interface BookingOfficeService {
+
+    public boolean idExist(int id);
 
     public void add(BookingOffice office);
 

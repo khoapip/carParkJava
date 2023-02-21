@@ -1,4 +1,4 @@
-package com.example.carpark.servicesInterface;
+package com.example.carpark.services;
 
 
 import com.example.carpark.entities.Ticket;
@@ -13,6 +13,7 @@ public interface TicketService {
 
     public List<Ticket> findAll();
 
+    public boolean idExist(int id);
 
     public Ticket findById(int id);
 

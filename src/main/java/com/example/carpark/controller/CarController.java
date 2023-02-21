@@ -2,7 +2,10 @@ package com.example.carpark.controller;
 
 
 import com.example.carpark.entities.Car;
-import com.example.carpark.servicesInterface.CarService;
+import com.example.carpark.services.CarService;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +21,11 @@ public class CarController {
     private CarService service;
 
     @GetMapping("/get/{license}")
-    public ResponseEntity<Car> getByLicense(@PathVariable String license){
+    public ResponseEntity<Car> get(@PathVariable String license){
+
+        if (!service.idExist(license)){
+            throw new EntityNotFoundException("CarController.get::Car not found, Invalid license plate");
+        }
 
         Car car = service.findByLicensePlate(license);
         return new ResponseEntity<>(car, HttpStatus.OK);
@@ -54,7 +61,11 @@ public class CarController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<HttpStatus> create(@RequestBody Car car){
+    public ResponseEntity<HttpStatus> create(@Valid @RequestBody Car car){
+        if (service.idExist(car.getLicensePlate())){
+            throw new EntityExistsException("CarController.create::Duplicate License Plate");
+        }
+
         service.add(car);
         return  new ResponseEntity<>(HttpStatus.OK);
     }
@@ -67,12 +78,22 @@ public class CarController {
 
     @DeleteMapping("/delete/{license}")
     public ResponseEntity<HttpStatus> delete(@PathVariable String license){
+
+        if (!service.idExist(license)){
+            throw new EntityNotFoundException("CarController.delete::Invalid License Plate. Car Not Found");
+        }
+
         service.deleteByLicensePlate(license);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<HttpStatus> update(@RequestBody Car car){
+    public ResponseEntity<HttpStatus> update(@Valid @RequestBody Car car){
+
+        if (!service.idExist(car.getLicensePlate())){
+            throw new EntityNotFoundException("CarController.update::Invalid License Plate. Car Not Found");
+        }
+
         service.edit(car);
         return new ResponseEntity<>(HttpStatus.OK);
     }

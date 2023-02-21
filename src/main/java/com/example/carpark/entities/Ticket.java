@@ -2,23 +2,32 @@ package com.example.carpark.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.sql.Time;
 
 @Entity
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE )
+    @Column(length = 20)
+    @Size(max = 20)
     private int ticketId;
 
     @Column
     private Time bookingTime;
 
     @Column(length = 11)
+    @Size(max = 11, message = "Customer Name should not exceed 11 characters")
+    @NotBlank(message = "Customer Name should not be blank")
     private String customerName;
 
     //Many to One Here
     @ManyToOne
     @JoinColumn(name="licensePlate", referencedColumnName = "licensePlate")
+    @NotNull(message = "License Plate should not be blank")
     private Car licensePlate;
 
     //Many to One here

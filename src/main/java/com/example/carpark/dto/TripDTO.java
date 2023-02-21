@@ -1,6 +1,9 @@
-package com.example.carpark.entities;
+package com.example.carpark.dto;
 
 
+
+import com.example.carpark.entities.BookingOffice;
+import com.example.carpark.entities.Ticket;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -10,61 +13,39 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-@Entity
-@JsonIgnoreProperties({"ticketList", "bookingList"})
-public class Trip {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(length = 20)
-    @Max(20)
-    private int tripId;
+public class TripDTO {
 
-    @Column(length = 11)
     private int bookedTicketNumber;
 
-    @Column(length = 11)
-    @Size(max = 11, message = "Car Type should not exceed 11 characters")
-    @NotBlank(message = "Car Type should not be blank")
     private String carType;
 
-    @Column
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
-    @NotNull(message = "Date should not be null")
     private Date departureDate;
 
-    @Column
-    @NotNull(message = "Time should not be null")
     private Time departureTime;
 
-    @Column(length = 50)
-    @Size(max = 50, message = "Destination should not exceed 50")
-    @NotBlank(message = "Desitnation should not be blank")
+
     private String destination;
 
-    @Column(length = 11)
-    @Size(max = 11, message = "Driver should not exceed 11")
-    @NotBlank(message = "Driver should not be blank")
+
     private String driver;
 
-    @Column(length = 11)
-    @NotNull(message = "Maximum Online Ticket should not be null")
     private int maximumOnlineTicketNumber;
 
-    @OneToMany(mappedBy = "tripId", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonIgnoreProperties("tripId")
-    List<Ticket> ticketList;
+
+    private String msg;
+
+    private List<TicketDTO> ticketList;
 
 
-    @OneToMany(mappedBy = "tripId", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonIgnoreProperties("tripId")
-    List<BookingOffice> bookingList;
+    private List<BookingOfficeDTO> bookingList;
 
-    public int getTripId() {
-        return tripId;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setTripId(int tripId) {
-        this.tripId = tripId;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public int getBookedTicketNumber() {
@@ -123,19 +104,19 @@ public class Trip {
         this.maximumOnlineTicketNumber = maximumOnlineTicketNumber;
     }
 
-    public List<Ticket> getTicketList() {
+    public List<TicketDTO> getTicketList() {
         return ticketList;
     }
 
-    public void setTicketList(List<Ticket> ticketList) {
+    public void setTicketList(List<TicketDTO> ticketList) {
         this.ticketList = ticketList;
     }
 
-    public List<BookingOffice> getBookingList() {
+    public List<BookingOfficeDTO> getBookingList() {
         return bookingList;
     }
 
-    public void setBookingList(List<BookingOffice> bookingList) {
+    public void setBookingList(List<BookingOfficeDTO> bookingList) {
         this.bookingList = bookingList;
     }
 }

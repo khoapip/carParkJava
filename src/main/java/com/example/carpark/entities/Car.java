@@ -2,28 +2,34 @@ package com.example.carpark.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CollectionId;
-
-import java.util.List;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Car {
 
     @Id
+    @Size(max=50, message = "License Plate should be within 50 characters")
+    @Column(length = 50)
+    @NotBlank(message = "License Plate should not be blank")
     private String licensePlate;
 
     @Column(length = 11)
+    @NotBlank(message = "car Color should not be blank")
+    @Size( max = 11, message = "car Color should be within 11 characters")
     private String carColor;
 
     @Column(length = 50)
+    @Size(max = 50, message = "car Type should be within 50 characters")
     private String carType;
 
     @Column(length = 50)
+    @Size(max = 50, message = "car company should be within 50 characters")
     private String company;
 
-
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "parkId", referencedColumnName = "parkId")
     @JsonIgnoreProperties(value = "carList")
     ParkingLot parkId;
